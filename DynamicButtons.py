@@ -3,6 +3,7 @@ from __future__ import annotations
 from discord.ext import commands
 import discord
 import re
+import Modals
 
 class GuildApplicationButton(discord.ui.DynamicItem[discord.ui.Button], template=r'guildapp:user:(?P<id>[0-9]+)'):
     def __init__(self, user_id: int) -> None:
@@ -22,12 +23,8 @@ class GuildApplicationButton(discord.ui.DynamicItem[discord.ui.Button], template
         user_id = int(match['id'])
         return cls(user_id)
 
-    async def interaction_check(self, interaction: discord.Interaction) -> bool:
-        # Only allow the user who created the button to interact with it.
-        return interaction.user.id == self.user_id
-
     async def callback(self, interaction: discord.Interaction) -> None:
-        await interaction.response.send_message('This is your very own button!', ephemeral=True)
+        await interaction.response.send_modal(Modals.GuildApplicationModal())
 
 
 class CommunityApplicationButton(discord.ui.DynamicItem[discord.ui.Button], template=r'commapp:user:(?P<id>[0-9]+)'):
