@@ -7,6 +7,8 @@ class Setup(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    #Slash commands for the bot. The name must be all lowercase no spaces. Use interaction.x instead of context. Must use interaction.response to avoid an error message.
+
     @app_commands.command(
             name="application_message",
             description="Sends the application message with the buttons."
