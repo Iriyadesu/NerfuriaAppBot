@@ -30,6 +30,12 @@ class PersistentViewBot(commands.Bot):
 
         super().__init__(command_prefix=commands.when_mentioned_or('$'), intents=intents)
 
+    async def setup_hook(self) -> None:
+
+        # For dynamic items, we must register the classes
+        self.add_dynamic_items(GuildApplicationButton)
+        self.add_dynamic_items(CommunityApplicationButton)
+
     async def on_ready(self):
         print(f'Logged in as {self.user} (ID: {self.user.id})')
         print('------')
