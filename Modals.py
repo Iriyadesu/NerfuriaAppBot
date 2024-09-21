@@ -9,7 +9,7 @@ class GuildApplicationModal(discord.ui.Modal, title= "Guild Application"):
         await interaction.response.send_message("Your application has been processed",ephemeral=True)
         thread = await interaction.channel.create_thread(
         name=f"{self.user_name}",
-        type=discord.ChannelType.private_thread)
+        type=discord.ChannelType.public_thread)
         await thread.add_user(interaction.user)
         Embed = discord.Embed(
             title="Guild Application",
