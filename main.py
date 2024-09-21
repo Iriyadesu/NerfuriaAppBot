@@ -23,12 +23,13 @@ else:  # default path
 
 #SETTING UP THE BOT
 
+
 class PersistentViewBot(commands.Bot):
     def __init__(self):
         intents = discord.Intents.default()
         intents.message_content = True
 
-        super().__init__(command_prefix=commands.when_mentioned_or('$'), intents=intents)
+        super().__init__(command_prefix=commands.when_mentioned_or('$'), intents=discord.Intents.all())
 
     async def setup_hook(self) -> None:
 
@@ -38,10 +39,14 @@ class PersistentViewBot(commands.Bot):
 
     async def on_ready(self):
         print(f'Logged in as {self.user} (ID: {self.user.id})')
+        await load_extensions()
+        synced = await bot.tree.sync()
+        print(f"synced {synced} commands")
         print('------')
 
 
 bot = PersistentViewBot()
+
 
 async def load_extensions():
     for filename in os.listdir("./Cogs"):
@@ -51,7 +56,8 @@ async def load_extensions():
 
 async def main():
     async with bot:
-        await load_extensions()
+
         await bot.start(TOKEN)
+
 
 asyncio.run(main())
