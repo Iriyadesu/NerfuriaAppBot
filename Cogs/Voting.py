@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
-from DynamicButtons import VotingUpvoteButton
+from DynamicButtons import VotingUpvoteButton, VotingDownvoteButton
 
 class Voting(commands.Cog):
     def __init__(self, bot):
@@ -13,7 +13,8 @@ class Voting(commands.Cog):
     )
     async def nominate(self,interaction: discord.Interaction, username: str, reason: str):
         view = discord.ui.View(timeout=None)
-        view.add_item(VotingUpvoteButton(interaction.id))
+        view.add_item(VotingUpvoteButton(context_id=interaction.id, IsDisabled=False))
+        view.add_item(VotingDownvoteButton(context_id=interaction.id, IsDisabled=False))
         await interaction.channel.send(f"{interaction.user.name} nominated {username} for reasons: {reason}", view=view)
         await interaction.response.send_message("Nominated", ephemeral=True)
 

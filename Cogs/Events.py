@@ -8,7 +8,7 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_command_error(self,ctx: commands.Context, error: Exception):
         await ctx.send(
-            embed=discord.Embed(error.__cause__)
+            embed=discord.Embed(title="Error", description=error)
         )
 
 async def setup(bot):

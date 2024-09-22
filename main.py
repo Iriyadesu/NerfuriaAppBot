@@ -36,6 +36,8 @@ class PersistentViewBot(commands.Bot):
         # For dynamic items, we must register the classes
         self.add_dynamic_items(GuildApplicationButton)
         self.add_dynamic_items(CommunityApplicationButton)
+        self.add_dynamic_items(VotingUpvoteButton)
+        self.add_dynamic_items(VotingDownvoteButton)
 
     async def on_ready(self):
         print(f'Logged in as {self.user} (ID: {self.user.id})')
