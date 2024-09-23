@@ -1,4 +1,5 @@
 import discord
+from Helper.Config import ReadConfig, WriteConfig
 
 class GuildApplicationModal(discord.ui.Modal, title= "Guild Application"):
     user_name = discord.ui.TextInput(label="Minecraft Username", placeholder="eg. KevinMarryMe", required=True, max_length=100,style=discord.TextStyle.short)
@@ -7,9 +8,11 @@ class GuildApplicationModal(discord.ui.Modal, title= "Guild Application"):
 
     async def on_submit(self, interaction: discord.Interaction):
         await interaction.response.send_message("Your application has been processed",ephemeral=True)
-        thread = await interaction.channel.create_thread(
+        config = await ReadConfig()
+        channel = discord.utils.get(interaction.guild.channels,id=config["Applications"][0]["Thread_Channel_ID"])
+        thread = await channel.create_thread(
         name=f"{self.user_name}",
-        type=discord.ChannelType.public_thread)
+        type=discord.ChannelType.private_thread)
         await thread.add_user(interaction.user)
         Embed = discord.Embed(
             title="Guild Application",

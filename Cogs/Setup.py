@@ -2,12 +2,33 @@ import discord
 from discord.ext import commands
 from DynamicButtons import GuildApplicationButton, CommunityApplicationButton
 from discord import app_commands
+import json
+from Helper.Config import ReadConfig, WriteConfig
 
 class Setup(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
     #Slash commands for the bot. The name must be all lowercase no spaces. Use interaction.x instead of context. Must use interaction.response to avoid an error message.
+    @app_commands.command(
+            name="set_threadchannel_id",
+            description="Sets the channel in which the threads get created."
+    )
+    async def set_threadchannel_id(self,interaction: discord.Interaction, id: str):
+        config = await ReadConfig()
+        config["Applications"][0]["Thread_Channel_ID"] = int(id)
+        await WriteConfig(config)
+        await interaction.response.send_message("Set channel.",ephemeral=True)
+
+    @app_commands.command(
+            name="set_votingchannel_id",
+            description="Sets the channel in which the threads get created."
+    )
+    async def set_votingchannel_id(self,interaction: discord.Interaction, id: str):
+        config = await ReadConfig()
+        config["Applications"][0]["Voting_Channel_ID"] = int(id)
+        await WriteConfig(config)
+        await interaction.response.send_message("Set channel.",ephemeral=True)
 
     @app_commands.command(
             name="application_message",
@@ -38,6 +59,7 @@ class Setup(commands.Cog):
             title='Applications',
             description="Something something guild application.\n\nSomething something community application"
         ), view=view)
+
 
 
 async def setup(bot):

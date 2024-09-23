@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from discord.ext import commands
 import discord
-import re
 import sys
 import os
 import asyncio
+import json 
 
 from DynamicButtons import *
 
@@ -26,8 +26,6 @@ else:  # default path
 
 class PersistentViewBot(commands.Bot):
     def __init__(self):
-        intents = discord.Intents.default()
-        intents.message_content = True
 
         super().__init__(command_prefix=commands.when_mentioned_or('$'), intents=discord.Intents.all())
 
@@ -46,9 +44,7 @@ class PersistentViewBot(commands.Bot):
         print(f"synced {synced} commands")
         print('------')
 
-
 bot = PersistentViewBot()
-
 
 async def load_extensions():
     for filename in os.listdir("./Cogs"):
@@ -58,7 +54,6 @@ async def load_extensions():
 
 async def main():
     async with bot:
-
         await bot.start(TOKEN)
 
 
