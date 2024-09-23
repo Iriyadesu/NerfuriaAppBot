@@ -9,17 +9,19 @@ class GuildApplicationModal(discord.ui.Modal, title= "Guild Application"):
     async def on_submit(self, interaction: discord.Interaction):
         await interaction.response.send_message("Your application has been processed",ephemeral=True)
         config = await ReadConfig()
-        channel = discord.utils.get(interaction.guild.channels,id=config["Applications"][0]["Thread_Channel_ID"])
-        thread = await channel.create_thread(
+        thread_channel = discord.utils.get(interaction.guild.channels,id=config["Applications"][0]["Thread_Channel_ID"])
+        voting_channel = discord.utils.get(interaction.guild.channels,id=config["Applications"][0]["Voting_Channel_ID"])
+        thread = await thread_channel.create_thread(
         name=f"{self.user_name}",
         type=discord.ChannelType.private_thread)
         await thread.add_user(interaction.user)
-        Embed = discord.Embed(
+        Thread_Embed = discord.Embed(
             title="Guild Application",
             description=f"\n\n\n**Minecraft Username:** \n{self.user_name}\n**Highest Combat Level:** \n{self.highest_level}\n**Previous Guilds:** \n{self.previous_guilds}",
         )
-        Embed.set_thumbnail(url=interaction.user.display_avatar.url)
-        await thread.send(embed=Embed)
+        Thread_Embed.set_thumbnail(url=interaction.user.display_avatar.url)
+        await thread.send(embed=Thread_Embed)
+        await voting_channel.send(f"{self.user_name} has created an application. See here: {thread.jump_url}")
         
         
     
