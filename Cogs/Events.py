@@ -10,6 +10,11 @@ class Events(commands.Cog):
         await ctx.send(
             embed=discord.Embed(title="Error", description=error)
         )
+    @commands.Cog.listener()
+    async def on_app_command_error(self,ctx: commands.Context, error: Exception):
+        await ctx.send(
+            embed=discord.Embed(title="Error", description=error)
+        )
 
 async def setup(bot):
     await bot.add_cog(Events(bot))

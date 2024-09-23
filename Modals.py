@@ -7,7 +7,6 @@ class GuildApplicationModal(discord.ui.Modal, title= "Guild Application"):
     previous_guilds = discord.ui.TextInput(label="Previous Guilds", placeholder="Please tell us what guilds you've been in and why you left. eg. Nerfuia - Left because of Kevinovicc", required=True, max_length=1000,style=discord.TextStyle.paragraph)
 
     async def on_submit(self, interaction: discord.Interaction):
-        await interaction.response.send_message("Your application has been processed",ephemeral=True)
         config = await ReadConfig()
         thread_channel = discord.utils.get(interaction.guild.channels,id=config["Applications"][0]["Thread_Channel_ID"])
         voting_channel = discord.utils.get(interaction.guild.channels,id=config["Applications"][0]["Voting_Channel_ID"])
@@ -22,6 +21,7 @@ class GuildApplicationModal(discord.ui.Modal, title= "Guild Application"):
         Thread_Embed.set_thumbnail(url=interaction.user.display_avatar.url)
         await thread.send(embed=Thread_Embed)
         await voting_channel.send(f"{self.user_name} has created an application. See here: {thread.jump_url}")
+        await interaction.response.send_message(f"Your application has been processed. Head to {thread.jump_url} for updates.",ephemeral=True)
         
         
     

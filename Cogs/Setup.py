@@ -60,6 +60,8 @@ class Setup(commands.Cog):
             description="Something something guild application.\n\nSomething something community application"
         ), view=view)
 
+    
+
 
 
 async def setup(bot):

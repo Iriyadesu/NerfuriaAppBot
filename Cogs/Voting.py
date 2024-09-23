@@ -11,15 +11,16 @@ class Voting(commands.Cog):
             name="nominate",
             description="Nominates someone from the guild"
     )
-    async def nominate(self,interaction: discord.Interaction, username: str, reason: str):
+    async def nominate(self,interaction: discord.Interaction, user: discord.Member, reason: str):
         view = discord.ui.View(timeout=None)
-        view.add_item(VotingUpvoteButton(context_id=interaction.id, IsDisabled=False))
-        view.add_item(VotingDownvoteButton(context_id=interaction.id, IsDisabled=False))
-        await interaction.channel.send(f"{interaction.user.name} nominated {username} for reasons: {reason}", view=view)
+        view.add_item(VotingUpvoteButton(context_id=interaction.id))
+        view.add_item(VotingDownvoteButton(context_id=interaction.id))
+        await interaction.channel.send(f"{interaction.user.name} nominated {user.mention} for reasons: {reason}", view=view)
         await interaction.response.send_message("Nominated", ephemeral=True)
 
-    async def cog_command_error(self, interaction: discord.Interaction, error: Exception) -> None:
+    async def cog_command_error(self, interaction: discord.Interaction, error: Exception):
         await interaction.response.send_message(error)
+        print(error)
         
 
 async def setup(bot):

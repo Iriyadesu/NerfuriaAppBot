@@ -46,6 +46,12 @@ class PersistentViewBot(commands.Bot):
 
 bot = PersistentViewBot()
 
+@bot.command()
+async def SyncTree(ctx: commands.Context):
+        synced = await bot.tree.sync()
+        print(f"synced {synced} commands")
+
+
 async def load_extensions():
     for filename in os.listdir("./Cogs"):
         if filename.endswith(".py"):
