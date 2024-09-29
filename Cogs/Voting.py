@@ -18,9 +18,6 @@ class Voting(commands.Cog):
         await interaction.channel.send(f"{interaction.user.name} nominated {user.mention} for reasons: {reason}", view=view)
         await interaction.response.send_message("Nominated", ephemeral=True)
 
-    async def cog_command_error(self, interaction: discord.Interaction, error: Exception):
-        await interaction.response.send_message(error)
-        print(error)
         
 
 async def setup(bot):
