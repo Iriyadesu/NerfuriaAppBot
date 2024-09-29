@@ -8,6 +8,7 @@ import sys
 import os
 import asyncio
 import json 
+from discord import app_commands
 
 from DynamicButtons import *
 
@@ -49,7 +50,7 @@ bot = PersistentViewBot()
 @bot.command()
 async def SyncTree(ctx: commands.Context):
         synced = await bot.tree.sync()
-        print(f"synced {synced} commands")
+        await ctx.send(f"Synced {synced} commands")
 
 
 async def load_extensions():
@@ -62,5 +63,14 @@ async def main():
     async with bot:
         await bot.start(TOKEN)
 
+async def on_tree_error(interaction: discord.Interaction, error: app_commands.AppCommandError):
+    if isinstance(error, app_commands.CommandOnCooldown):
+        return await interaction.response.send_message(f"Command is currently on cooldown! Try again in **{error.retry_after:.2f}** seconds!", ephemeral=True)
+    elif isinstance(error, app_commands.MissingPermissions):
+        return await interaction.response.send_message(f"You're missing permissions to use that", ephemeral=True)
+    else:
+        return await interaction.response.send_message(f"{error}", ephemeral=True)
+
+bot.tree.on_error = on_tree_error
 
 asyncio.run(main())
