@@ -2,6 +2,9 @@ import discord
 from discord.ext import commands
 
 class Events(commands.Cog):
+    """
+    This class is for events (like example someone sending a message etc.)
+    """
     def __init__(self, bot):
         self.bot = bot
         

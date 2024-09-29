@@ -6,6 +6,9 @@ import re
 import Modals
 
 class GuildApplicationButton(discord.ui.DynamicItem[discord.ui.Button], template=r'guildapp:user:(?P<id>[0-9]+)'):
+    """
+    This class is for the application view. It's the button for people applying for the guild and when pressed invokes the guild app Modal.
+    """
     def __init__(self, user_id: int) -> None:
         super().__init__(
             discord.ui.Button(
@@ -28,6 +31,9 @@ class GuildApplicationButton(discord.ui.DynamicItem[discord.ui.Button], template
 
 
 class CommunityApplicationButton(discord.ui.DynamicItem[discord.ui.Button], template=r'commapp:user:(?P<id>[0-9]+)'):
+    """
+    This class is for the application view. It's the button for people applying for community and when pressed invokes the comm app Modal.
+    """
     def __init__(self, user_id: int) -> None:
         super().__init__(
             discord.ui.Button(
@@ -54,6 +60,9 @@ class CommunityApplicationButton(discord.ui.DynamicItem[discord.ui.Button], temp
 
 
 class VotingUpvoteButton(discord.ui.DynamicItem[discord.ui.Button], template=r'voteup:user:(?P<id>[0-9]+)'):
+    """
+    This class is for the voting view. It's for upvoting a nomination. It uses the interaction ID as it's identifier.
+    """
     def __init__(self, context_id: int) -> None:
         super().__init__(
             discord.ui.Button(
@@ -76,6 +85,9 @@ class VotingUpvoteButton(discord.ui.DynamicItem[discord.ui.Button], template=r'v
         await interaction.response.send_message(f"Upvoted. {self.context_id}")
 
 class VotingDownvoteButton(discord.ui.DynamicItem[discord.ui.Button], template=r'votedown:user:(?P<id>[0-9]+)'):
+    """
+    This class is for the voting view. It's for downvoting a nomination. It uses the interaction ID as it's identifier.
+    """
     def __init__(self, context_id: int) -> None:
         super().__init__(
             discord.ui.Button(
